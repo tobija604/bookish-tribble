@@ -1,0 +1,61 @@
+name: Zgradi firmware in objavi flash installer
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prevzemi kodo
+        uses: actions/checkout@v4
+
+      - name: Namesti Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Namesti PlatformIO
+        run: pip install -U platformio
+
+      - name: Prevedi firmware (bootloader + partitions + firmware.bin)
+        run: pio run -e smartbox-esp32s3
+
+      - name: Zgradi LittleFS sliko (web dashboard v data/)
+        run: pio run -e smartbox-esp32s3 -t buildfs
+
+      - name: Kopiraj binarne datoteke v installer/build/
+        run: |
+          mkdir -p installer/build
+          cp .pio/build/smartbox-esp32s3/bootloader.bin installer/build/bootloader.bin
+          cp .pio/build/smartbox-esp32s3/partitions.bin installer/build/partitions.bin
+          cp .pio/build/smartbox-esp32s3/firmware.bin installer/build/firmware.bin
+          cp .pio/build/smartbox-esp32s3/littlefs.bin installer/build/littlefs.bin
+          ls -la installer/build/
+
+      - name: Pripravi Pages artefakt
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: installer
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Objavi na GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
