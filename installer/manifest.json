@@ -1,0 +1,16 @@
+{
+  "name": "SMART BOX",
+  "version": "1.0.0-skeleton",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        { "path": "build/bootloader.bin", "offset": 0 },
+        { "path": "build/partitions.bin", "offset": 32768 },
+        { "path": "build/firmware.bin", "offset": 65536 },
+        { "path": "build/littlefs.bin", "offset": 6356992 }
+      ]
+    }
+  ]
+}

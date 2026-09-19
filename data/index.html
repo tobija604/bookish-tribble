@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMART BOX</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ PRIJAVA / NASTAVITEV WIFI (prikazano do prijave) ============ -->
+  <div id="gate" class="gate hidden">
+    <div class="gate-card">
+      <div class="gate-logo">🔐 SMART BOX</div>
+
+      <div id="setupPanel" class="hidden">
+        <h2>NASTAVITEV WIFI</h2>
+        <p class="muted">Prvi zagon: povežite napravo z vašim omrežjem.</p>
+        <label>SSID (ime omrežja)</label>
+        <input id="setupSsid" type="text" placeholder="Ime vašega WiFi omrežja">
+        <label>Geslo</label>
+        <input id="setupPass" type="password" placeholder="WiFi geslo">
+        <label>Ime naprave</label>
+        <input id="setupDeviceName" type="text" value="SMART BOX">
+        <button class="btn primary" id="setupSubmit">POVEŽI</button>
+        <div id="setupStatus" class="muted"></div>
+      </div>
+
+      <div id="loginPanel" class="hidden">
+        <h2>PRIJAVA</h2>
+        <label>Uporabniško ime</label>
+        <input id="loginUser" type="text" autocomplete="username">
+        <label>Geslo</label>
+        <input id="loginPass" type="password" autocomplete="current-password">
+        <button class="btn primary" id="loginSubmit">PRIJAVA</button>
+        <div id="loginStatus" class="muted"></div>
+        <button class="btn link" id="showCodeLogin">Uporabi varnostno kodo</button>
+      </div>
+
+      <div id="codePanel" class="hidden">
+        <h2>VARNOSTNA KODA</h2>
+        <p class="muted">WEB ZAKLENJEN — držite GUMB 1 na napravi, nato v ~1 sekundi vnesite 6-mestno kodo, prikazano na AMOLED zaslonu.</p>
+        <input id="codeInput" type="text" maxlength="6" placeholder="000000" class="code-input">
+        <button class="btn primary" id="codeSubmit">ODKLENI SEJO</button>
+        <div id="codeStatus" class="muted"></div>
+        <button class="btn link" id="showUserLogin">Uporabi uporabniško ime/geslo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ GLAVNA APLIKACIJA (prikazano po prijavi) ============ -->
+  <div id="shell" class="shell hidden">
+    <nav class="sidebar">
+      <div class="brand">🔐 SMART BOX</div>
+      <a href="#dashboard" data-nav="dashboard">Nadzorna plošča</a>
+      <a href="#users" data-nav="users">Uporabniki</a>
+      <a href="#rfid" data-nav="rfid">RFID kartice</a>
+      <a href="#lock" data-nav="lock">Ključavnica</a>
+      <a href="#events" data-nav="events">Dogodki</a>
+      <a href="#statistics" data-nav="statistics">Statistika</a>
+      <a href="#network" data-nav="network">Omrežje</a>
+      <a href="#security" data-nav="security">Varnost</a>
+      <a href="#display" data-nav="display">Zaslon</a>
+      <a href="#audio" data-nav="audio">Zvok</a>
+      <a href="#buttons" data-nav="buttons">Tipke</a>
+      <a href="#lid" data-nav="lid">Senzor pokrova</a>
+      <a href="#servos" data-nav="servos">Servo motorji</a>
+      <a href="#automation" data-nav="automation">Avtomatizacija</a>
+      <a href="#backup" data-nav="backup">Varnostna kopija</a>
+      <a href="#diagnostics" data-nav="diagnostics">Diagnostika</a>
+      <a href="#firmware" data-nav="firmware">Firmware</a>
+      <a href="#appearance" data-nav="appearance">Izgled</a>
+      <a href="#system" data-nav="system">Sistem</a>
+      <a href="#about" data-nav="about">O napravi</a>
+      <button class="btn link logout" id="logoutBtn">Odjava</button>
+    </nav>
+    <main class="content">
+      <header class="topbar">
+        <div class="status-pill" id="lockPill">—</div>
+        <div class="status-pill" id="lidPill">—</div>
+        <div class="status-pill" id="wifiPill">—</div>
+        <div class="spacer"></div>
+        <div id="clock" class="clock">--:--</div>
+      </header>
+      <section id="view"><!-- izrisano v app.js --></section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+</div>
+<script src="/js/app.js"></script>
+</body>
+</html>
